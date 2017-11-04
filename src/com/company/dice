@@ -1,0 +1,29 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        byte counter = 0;
+        int zar1 = 0;
+        int zar2 = 1;
+        boolean stayRule = true;
+        while (stayRule) {
+
+                zar1 = new Random().nextInt(6) + 1;
+                zar2 = new Random().nextInt(6) + 1;
+
+
+                counter++;
+                System.out.println("Zar 1: " + zar1);
+                System.out.println("Zar 2: " + zar2 + "\n\n");
+                stayRule =! ( zar1 == zar2 && zar1 == 6 ); // stayRule is NOT TRUE if conditie
+
+            }
+
+
+
+        System.out.println("Ti-a luat " + counter + " incercari.");
+    }
+}
