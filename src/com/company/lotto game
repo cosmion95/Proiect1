@@ -1,0 +1,44 @@
+import java.util.Random;
+
+public class Problema2 {
+
+    public static void main(String[] args) {
+
+        // JOC LOTTTTTTTOOOOOO
+
+        //generez sirul agentiei cu 6 numere unice
+
+        int[] arrGenerat = new int[5];
+        boolean check = false;
+        for (int i = 0; i <arrGenerat.length ; i++) {
+            arrGenerat[i] = new Random().nextInt(48)+1;
+        check = ()
+            System.out.println(arrGenerat[i]);
+        }
+
+        //bucla while: atata timp cat nu am un bilet cu minim 4 numere ghicite fac ce-i mai jos
+
+
+
+
+
+        //generez sirul meu de 6 numere distincte
+
+
+
+
+        //gasesc cate am ghicite
+
+
+
+        //incrementez cu 1 numarul de bilete jucate
+
+
+
+        //gata bucla while
+
+
+        //afisez cate bilete am jucat
+
+    }
+}
