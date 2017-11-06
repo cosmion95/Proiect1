@@ -1,44 +1,75 @@
+package com.company;
+
 import java.util.Random;
 
-public class Problema2 {
+public class LottoGame {
 
     public static void main(String[] args) {
 
-        // JOC LOTTTTTTTOOOOOO
+        int lucky = 0; //cate numere am ghicit intr-un bilet
+        final int NrG = 6; //cate numere vrem sa ghicim intr-un bilet
+        int NrTickets = 0; //numar bilete jucate
+        int[] arrIntrodus = new int[6]; //initializez sirul nostru
+        int[] arrGenerat = new int[6]; //initializez sirul agentiei
 
-        //generez sirul agentiei cu 6 numere unice
-
-        int[] arrGenerat = new int[5];
+        //generez sirul agentiei de 6 numere distincte
         boolean check = false;
-        for (int i = 0; i <arrGenerat.length ; i++) {
-            arrGenerat[i] = new Random().nextInt(48)+1;
-        check = ()
-            System.out.println(arrGenerat[i]);
+        for (int i = 0; i < arrGenerat.length; i++) {
+            arrGenerat[i] = new Random().nextInt(48) + 1;
+            for (int j = 0; j < i; j++) {
+                check = !(arrGenerat[i] == arrGenerat[j]);
+                while (!check) {
+                    arrGenerat[i] = new Random().nextInt(48) + 1;
+                    check = (arrGenerat[i] != (arrGenerat[j]));
+                }
+            }
+        }
+        System.out.println("\n");
+
+        //atata timp cat nu avem NrG numere ghicite intr-un bilet, ruleaza codul de mai jos
+        while (lucky < NrG) {
+            lucky = 0; //initializez din nou pentru fiecare bilet
+
+            // generez sirul nostru de 6 numere distincte
+            arrIntrodus = new int[6];
+            boolean flag = false;
+            for (int i = 0; i < arrIntrodus.length; i++) {
+                arrIntrodus[i] = new Random().nextInt(48) + 1;
+                for (int j = 0; j < i; j++) {
+                    flag = !(arrIntrodus[i] == arrIntrodus[j]);
+                    while (!flag) {
+                        arrIntrodus[i] = new Random().nextInt(48) + 1;
+                        flag = (arrIntrodus[i] != (arrIntrodus[j]));
+                    }
+                }
+            }
+
+            //compar numerele agentiei cu numerele noastre
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 6; j++) {
+
+                    if (arrGenerat[i] == arrIntrodus[j]) {
+                        lucky++;
+                    }
+                }
+            }
+            NrTickets++; //maresc numarul de bilete pentru fiecare incercare
         }
 
-        //bucla while: atata timp cat nu am un bilet cu minim 4 numere ghicite fac ce-i mai jos
+        System.out.println("LOTO: 6 din 49");
+        System.out.println("Am ghicit " + NrG + " numere dupa " + NrTickets + " de bilete jucate.");
 
+        //afisez numerele agentiei
+        System.out.println("Numerele agentiei: ");
+        for (int i = 0; i < 6; i++) {
+            System.out.print(arrGenerat[i] + "  ");
+        }
 
-
-
-
-        //generez sirul meu de 6 numere distincte
-
-
-
-
-        //gasesc cate am ghicite
-
-
-
-        //incrementez cu 1 numarul de bilete jucate
-
-
-
-        //gata bucla while
-
-
-        //afisez cate bilete am jucat
-
+        //afisez numerele noastre
+        System.out.println("\nNumerele mele: ");
+        for (int i = 0; i < 6; i++) {
+            System.out.print(arrIntrodus[i] + "  ");
+        }
     }
 }
+
