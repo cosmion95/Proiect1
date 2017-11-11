@@ -1,0 +1,96 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+
+
+        //structura de date
+
+        String[] agendaDeNume = new String[10];
+        int pozitie = 0;
+
+        //meniul si operatiile
+
+        int optiune = 0;
+
+        do {
+            System.out.println("1. Afisare");
+            System.out.println("2. Add");
+            System.out.println("3. Delete");
+            System.out.println("0. Exit");
+
+            Scanner sc = new Scanner(System.in);
+            optiune = sc.nextInt();
+
+            switch (optiune) {
+                case 1: {
+                    //afisare
+                    for (int i = 0; i <agendaDeNume.length ; i++) {
+                        if (agendaDeNume[i] != null) {
+                            System.out.println(agendaDeNume[i]);
+                        }
+                    }
+                    break;
+                }
+
+
+                case 2: {
+                    //add
+                    if (pozitie < agendaDeNume.length) {
+                        System.out.print("Introdu numele: ");
+                        Scanner scan = new Scanner(System.in);
+                        String nume = scan.nextLine();
+                        agendaDeNume[pozitie] = nume;
+                        pozitie++;
+                    }
+                    else {
+
+                        //totusi hai sa cautam in goluri
+
+                        for (int i = 0; i < agendaDeNume.length; i++) {
+                            if(agendaDeNume[i] == null) {
+                                agendaDeNume[i] = nume;
+                            }
+                        }
+                        System.out.println("agenda plina, ia alta mai mare");
+                    }
+                    System.out.println("");
+                    break;
+                }
+                case 3: {
+
+                    //cautare
+                    System.out.print("Nume de sters: ");
+                    Scanner scan = new Scanner(System.in);
+                    String nume = scan.nextLine();
+                    boolean found = false;
+
+                    //daca e gasit il rad
+                    for (int i = 0; i < agendaDeNume.length; i++) {
+                        if (nume.equals(agendaDeNume[i])) {
+                            agendaDeNume[i] = null;
+                            System.out.println("Am ras-o pe " + nume);
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("nu exista in agenda");
+                    }
+                    break;
+                }
+                default: {
+
+                    break;
+                }
+
+
+
+            }
+        }
+        while (optiune != 0);
+
+
+    }
+}
