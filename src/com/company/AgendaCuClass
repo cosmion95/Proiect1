@@ -1,0 +1,228 @@
+import java.util.Scanner;
+
+public class PhoneBook {
+
+    static Person[] persons = new Person[3];
+    static int pozitie;
+
+    public static void main(String[] args) {
+        int optiune = -1;
+        do {
+            // afisez meniul si promptez userul sa introduca o optiune
+            afisareMeniu();
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Introdu o optiune: ");
+            optiune = sc.nextInt();
+            System.out.println();
+            switch (optiune) {
+                case 1: {
+                    afisare();
+                    break;
+                }
+                case 2: {
+                    adaugare();
+                    break;
+                }
+                case 3: {
+                    cautare();
+                    break;
+                }
+                case 0: {
+                    System.out.println("ciao");
+                    break;
+                }
+                case 4: {
+                    modificare();
+                    break;
+                }
+                case 5: {
+                    stergere();
+                    break;
+                }
+                default: {
+                    System.out.println("Ai introdus o optiune invalida.");
+                    break;
+                }
+            }
+        }
+        while (optiune != 0);
+
+    }
+
+    public static void afisareMeniu() {
+        System.out.println();
+        System.out.println("--------AGENDA TELEFONICA-----");
+        System.out.println("1 -> Afisare contacte");
+        System.out.println("2 -> Adauga contact");
+        System.out.println("3 -> Cauta contact");
+        System.out.println("4 -> Modifica contact");
+        System.out.println("5 -> Sterge contact");
+        System.out.println("0 -> Iesire");
+    }
+
+    public static String citire(String label) {
+        //afisez un mesaj, citesc un string si returnez un string
+        System.out.print(label);
+        Scanner scan = new Scanner(System.in);
+        String vapor = scan.nextLine();
+        return vapor;
+    }
+
+    public static void adaugare() {
+        // verific daca este vreun loc liber in agenda, daca da, adaug un contact nou
+        boolean check = true;
+        for (int i = 0; i < persons.length; i++) {
+            if (persons[i] == null ) {
+                persons[i] = new Person();
+                String nume = citire("Da numele de adaugat:");
+                persons[i].nume = nume;
+                String telefon = citire("Da numarul de telefon: ");
+                persons[i].telefon = telefon;
+                System.out.println(nume + " a fost inregistrat.");
+                check = false;
+                break;
+            }
+        }
+        if (check) {
+            System.out.println("Agenda plina");
+        }
+        System.out.println();
+    }
+
+
+
+    public static void afisare() {
+        // verific daca locul din agenda este ocupat, daca da, il afisez
+        boolean check = true;
+        for (int i = 0; i < persons.length; i++) {
+            if (persons[i] != null) {
+                System.out.println("Nume: " + persons[i].nume);
+                System.out.println("Telefon: " + persons[i].telefon);
+                check = false;
+                System.out.println();
+            }
+        }
+        if (check) {
+            System.out.println("Agenda este goala.");
+        }
+    }
+
+    public static void cautare() {
+        // caut dupa nume / numar tel si daca a fost gasit il afisez
+        cautareSimpla();
+        if (pozitie != -1) {
+            System.out.println("Nume: " + persons[pozitie].nume);
+            System.out.println("Telefon: " + persons[pozitie].telefon);
+        }
+        else {
+            System.out.println("Contactul nu a fost gasit.");
+        }
+
+    }
+
+    public static void stergere() {
+        //caut sa vad daca contactul exista, dupa nume sau dupa numar
+        //daca exista, il rad
+        cautareSimpla();
+        if (pozitie != -1) {
+            System.out.println(persons[pozitie].nume + " a fost sters.");
+            persons[pozitie] = null;
+        }
+        else {
+            System.out.println("Contactul nu a fost gasit.");
+        }
+
+    }
+
+    public static int cautareSimpla() {
+        // caut un contact dupa nume sau numar de telefon, daca le gasesc returnez pozitia gasita, altfel returnez -1
+        Scanner input = new Scanner(System.in);
+        int cautaSwitch = -1;
+        pozitie = -1;
+        boolean check = true;
+        do {
+            System.out.println("1 -> Cauta dupa nume.");
+            System.out.println("2 -> Cauta dupa numar de telefon.");
+            System.out.println("0 -> Iesire");
+            System.out.print("Introdu o optiune: ");
+            cautaSwitch = input.nextInt();
+            if (cautaSwitch == 1) {
+                //caut dupa nume, verificand daca locul din agenda este null sau nu
+                String nume = citire("Da numele: ");
+                for (int i = 0; i < persons.length; i++) {
+                    if (persons[i] != null) {
+                        if (persons[i].nume.equalsIgnoreCase(nume)) {
+                           check = false;
+                           pozitie = i;
+                           cautaSwitch = 0;
+                        }
+                    }
+                }
+                if (check) {
+                    System.out.println(nume + "nu a fost gasit.");
+                }
+            }
+            else if (cautaSwitch == 2) {
+                //caut dupa numar de telefon, verificand daca locul din agenda este null
+                check = true;
+                String telefon = citire("Da numarul de telefon: ");
+                for (int i = 0; i < persons.length; i++) {
+                    if (persons[i] != null) {
+                        if (persons[i].telefon.equalsIgnoreCase(telefon)) {
+                            check = false;
+                            pozitie = i;
+                            cautaSwitch = 0;
+                        }
+                    }
+                }
+                if (check) {
+                    System.out.println("Numarul " + telefon + " nu a fost gasit.");
+                }
+            }
+            else if (cautaSwitch == 0) {
+                // pentru a nu intra mesajul de mai jos la introducerea cifrei zero
+                //iesire din bucla
+                break;
+            }
+            else {
+                System.out.println("Ai introdus o optiune gresita");
+            }
+        }
+        while (cautaSwitch != 0);
+        return pozitie;
+    }
+
+    public static void modificare() {
+        cautareSimpla();
+        int checkSwitch;
+        if (pozitie != -1) {
+            do {
+                Scanner input = new Scanner(System.in);
+                System.out.println("1 -> Modificare nume: " + persons[pozitie].nume);
+                System.out.println("2 -> Modificare numar de telefon: " + persons[pozitie].telefon);
+                System.out.println("0 -> Iesire.");
+                System.out.print("Optiunea ta: ");
+                checkSwitch = input.nextInt();
+                if (checkSwitch == 1) {
+                    //modificare nume
+                    String nume = citire("Introdu noul nume: ");
+                    persons[pozitie].nume = nume;
+                    System.out.println("Contactul a fost modificat.");
+                    checkSwitch = 0;
+                } else if (checkSwitch == 2) {
+                    //modificare numar telefon
+                    String telefon = citire("Introdu noul numar: ");
+                    persons[pozitie].telefon = telefon;
+                    System.out.println("Contactul a fost modificat.");
+                    checkSwitch = 0;
+                } else if (checkSwitch == 0) {
+                    break;
+                } else {
+                    System.out.println("Ai introdus o optiune gresita.");
+                }
+            }
+            while (checkSwitch != 0);
+        }
+    }
+
+}
