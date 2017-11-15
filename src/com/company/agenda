@@ -2,95 +2,151 @@ import java.util.Scanner;
 
 public class Main {
 
+    static String[] agendaDeNume = new String[3];
+    static int pozitie = 0;
+
+
     public static void main(String[] args) {
-
-
-
-        //structura de date
-
-        String[] agendaDeNume = new String[10];
-        int pozitie = 0;
-
-        //meniul si operatiile
-
-        int optiune = 0;
-
+        int optiune = -1;
         do {
-            System.out.println("1. Afisare");
-            System.out.println("2. Add");
-            System.out.println("3. Delete");
-            System.out.println("0. Exit");
-
+            afisareMeniu();
             Scanner sc = new Scanner(System.in);
+            System.out.print("Introdu o optiune: ");
             optiune = sc.nextInt();
-
             switch (optiune) {
                 case 1: {
-                    //afisare
-                    for (int i = 0; i <agendaDeNume.length ; i++) {
-                        if (agendaDeNume[i] != null) {
-                            System.out.println(agendaDeNume[i]);
-                        }
-                    }
+                    afisareAgenda();
                     break;
                 }
-
 
                 case 2: {
-                    //add
-                    if (pozitie < agendaDeNume.length) {
-                        System.out.print("Introdu numele: ");
-                        Scanner scan = new Scanner(System.in);
-                        String nume = scan.nextLine();
-                        agendaDeNume[pozitie] = nume;
-                        pozitie++;
-                    }
-                    else {
-
-                        //totusi hai sa cautam in goluri
-
-                        for (int i = 0; i < agendaDeNume.length; i++) {
-                            if(agendaDeNume[i] == null) {
-                                agendaDeNume[i] = nume;
-                            }
-                        }
-                        System.out.println("agenda plina, ia alta mai mare");
-                    }
-                    System.out.println("");
+                    adaugareAgenda();
                     break;
                 }
+
                 case 3: {
-
-                    //cautare
-                    System.out.print("Nume de sters: ");
-                    Scanner scan = new Scanner(System.in);
-                    String nume = scan.nextLine();
-                    boolean found = false;
-
-                    //daca e gasit il rad
-                    for (int i = 0; i < agendaDeNume.length; i++) {
-                        if (nume.equals(agendaDeNume[i])) {
-                            agendaDeNume[i] = null;
-                            System.out.println("Am ras-o pe " + nume);
-                            found = true;
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("nu exista in agenda");
-                    }
+                    stergere();
                     break;
                 }
-                default: {
-
+                case 4: {
+                    cautare();
                     break;
                 }
-
-
-
+                case 5: {
+                    modificare();
+                    break;
+                }
             }
         }
         while (optiune != 0);
+    }
 
 
+
+    public static void afisareMeniu() {
+        System.out.println("1> Afisare");
+        System.out.println("2> Adaugare");
+        System.out.println("3> Stergere");
+        System.out.println("4> Cautare");
+        System.out.println("5> Modificare");
+        System.out.println("0> Exit");
+    }
+
+
+    public static String citireNume(String label) {
+        System.out.print(label);
+        Scanner scan = new Scanner(System.in);
+        String vapor = scan.nextLine();
+        return vapor;
+    }
+
+
+    public static void afisareAgenda() {
+        for (int i = 0; i < agendaDeNume.length; i++) {
+            if (agendaDeNume[i] != null) {
+                System.out.println(agendaDeNume[i]);
+            }
+        }
+    }
+
+
+    public static void adaugareAgenda() {
+        boolean check = true;
+        for (int i = 0; i < agendaDeNume.length; i++) {
+            if (agendaDeNume[i] == null) {
+                String nume = citireNume("Da-ti numele de adaugat:");
+                agendaDeNume[i] = nume;
+                System.out.println(nume + " a fost adaugat in agenda.");
+                check = false;
+                break;
+            }
+        }
+        if (check) {
+            System.out.println("Agenda plina.");
+        }
+        System.out.println();
+    }
+
+
+    public static int cautarePentruStergere(String nume) { //se opreste la primul gasit
+        int found = -1;
+        for (int i = 0; i < agendaDeNume.length; i++) {
+            if (nume.equalsIgnoreCase(agendaDeNume[i])) {
+                agendaDeNume[i] = null;
+                System.out.println("l-am ras pe: " + nume);
+                found = i;
+                break;
+            }
+        }
+        return found;
+    }
+
+
+    public static void stergere() {
+        String nume = citireNume("Da-ti numele de sters: ");
+        int indexCautat = -1;
+        indexCautat = cautarePentruStergere(nume);
+        if(indexCautat!=-1) {
+            agendaDeNume[indexCautat]=null;
+    }}
+
+    public static void cautare() {
+        boolean check = true;
+        String nume = citireNume("Da numele de cautat: ");
+        for (int i = 0; i < agendaDeNume.length; i++) {
+            if (agendaDeNume[i] != null) {
+                if (agendaDeNume[i].equalsIgnoreCase(nume)) {
+                    System.out.println("L-am gasit pe " + nume + " pe pozitia " + (i+1));
+                    check = false;
+                    break;
+                } else {
+                    continue;
+                }
+            }
+        }
+        if (check) {
+            System.out.println(nume + " nu a fost gasit.");
+        }
+    }
+
+    public static void modificare() {
+        boolean check = true;
+        String nume = citireNume("Pe cine vrei sa modifici: ");
+        for (int i = 0; i < agendaDeNume.length; i++) {
+            if (agendaDeNume[i] != null) {
+                if (agendaDeNume[i].equalsIgnoreCase(nume)) {
+                    String numeNou = citireNume("Da numele de modificat: ");
+                    agendaDeNume[i] = numeNou;
+                    System.out.println(nume + " a fost modificat in " + numeNou);
+                    check = false;
+                    break;
+                } else {
+                    continue;
+                }
+            }
+        }
+        if (check) {
+            System.out.println(nume + " nu a fost gasit, deci nu poate fi modificat.");
+        }
     }
 }
