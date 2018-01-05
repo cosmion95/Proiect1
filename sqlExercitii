@@ -1,0 +1,31 @@
+EX.1
+SELECT * FROM postare
+where fkuser=1
+
+EX.2
+SELECT username FROM users
+
+EX.3
+SELECT username FROM users
+WHERE blocat=FALSE
+
+EX.4
+SELECT username 
+FROM users
+WHERE varsta = (SELECT MIN(varsta) FROM users)
+
+EX.5
+SELECT username 
+FROM users
+WHERE varsta < 34 AND varsta > 18
+ORDER BY varsta
+
+EX.6
+SELECT AVG(varsta) FROM users
+WHERE blocat = true
+
+EX.7
+SELECT username FROM users
+WHERE blocat = false AND oras = 'turda'
+
+EX.8
