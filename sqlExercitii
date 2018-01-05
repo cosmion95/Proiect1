@@ -29,3 +29,9 @@ SELECT username FROM users
 WHERE blocat = false AND oras = 'turda'
 
 EX.8
+SELECT mesaj FROM postare
+INNER JOIN users ON postare.fkuser = users.iduser
+WHERE users.blocat = false AND users.oras = 'turda' AND users.varsta > 40
+
+EX.9
+
